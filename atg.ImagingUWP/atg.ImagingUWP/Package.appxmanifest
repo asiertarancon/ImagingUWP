@@ -22,11 +22,20 @@
       </uap:VisualElements>
     </Application>
   </Applications>
+  <Extensions>
+    <Extension Category="windows.activatableClass.inProcessServer">
+      <InProcessServer>
+        <Path>Lumia.Imaging.dll</Path>
+        <ActivatableClass ActivatableClassId="Lumia.Imaging.VideoEffect" ThreadingModel="both" />
+      </InProcessServer>
+    </Extension>
+  </Extensions>
   <Capabilities>
     <Capability Name="internetClient" />
     <uap:Capability Name="picturesLibrary" />
     <uap:Capability Name="videosLibrary" />
     <uap:Capability Name="removableStorage" />
     <DeviceCapability Name="webcam" />
+    <DeviceCapability Name="microphone" />
   </Capabilities>
 </Package>

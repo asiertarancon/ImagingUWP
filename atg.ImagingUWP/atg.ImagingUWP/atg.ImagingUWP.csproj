@@ -95,11 +95,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AttachedProperties\FrameworkElementAttachedProperties.cs" />
+    <Compile Include="Effects\BinaryEffect.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\TaskUtilities.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\VideoEffectsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -109,6 +113,25 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\defaultImage.jpg" />
+    <Content Include="Icons\antique_thumbnail.jpg" />
+    <Content Include="Icons\appbar_edit.png" />
+    <Content Include="Icons\appbar_effects.png" />
+    <Content Include="Icons\appbar_save.png" />
+    <Content Include="Icons\blend_brokenglass_thumbnail.jpg" />
+    <Content Include="Icons\blend_raindrops_thumbnail.jpg" />
+    <Content Include="Icons\brightness.png" />
+    <Content Include="Icons\contrast.png" />
+    <Content Include="Icons\feature-switch.camera.png" />
+    <Content Include="Icons\feature.camera.png" />
+    <Content Include="Icons\feature.video.png" />
+    <Content Include="Icons\grayscale_thumbnail.jpg" />
+    <Content Include="Icons\mirror_thumbnail.jpg" />
+    <Content Include="Icons\saturation.png" />
+    <Content Include="Icons\sepia_thumbnail.jpg" />
+    <Content Include="Icons\stop.png" />
+    <Content Include="Icons\vibrance.png" />
+    <Content Include="Images\BrokenGlas.png" />
+    <Content Include="Images\raindrops.jpg" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -127,6 +150,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="BehaviorsXamlSDKManaged, Version=12.0">
+      <Name>Behaviors SDK %28XAML%29</Name>
+    </SDKReference>
+    <SDKReference Include="WindowsMobile, Version=10.0.10586.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
