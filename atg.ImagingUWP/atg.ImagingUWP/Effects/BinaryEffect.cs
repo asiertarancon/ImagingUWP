@@ -57,6 +57,7 @@ namespace atg.ImagingUWP.Effects
                 {
                     for (int i = 0; i < width; ++i)
                     {
+                                                
                         //var c = sourcePixelRegion.ImagePixels[index + i];
 
                         //c >>= 1;

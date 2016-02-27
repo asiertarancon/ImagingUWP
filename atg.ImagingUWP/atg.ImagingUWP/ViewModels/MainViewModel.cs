@@ -81,6 +81,7 @@ namespace atg.ImagingUWP.ViewModels
         private MirrorEffect m_mirrorEffect;
         private GrayscaleEffect m_grayscaleEffect;
         private BinaryEffect m_binaryEffect;
+        private MedianFilter m_medianFilter;
 
         public RelayCommand<FrameworkElement> PreviewVideoElementLoadedCommand { get; set; }
         public RelayCommand StartStopRecordCommand { get; set; }
@@ -340,6 +341,8 @@ namespace atg.ImagingUWP.ViewModels
             m_binaryEffect = new BinaryEffect();
             effects.Add(new VideoEffectsViewModel(m_binaryEffect, "grayscale_thumbnail.jpg") { Name = "Binary" });
 
+            m_medianFilter = new MedianFilter();
+            effects.Add(new VideoEffectsViewModel(m_medianFilter, "grayscale_thumbnail.jpg") { Name = "Median" });
             return effects;
         }
 

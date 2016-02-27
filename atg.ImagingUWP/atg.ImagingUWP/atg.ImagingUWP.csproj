@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="AttachedProperties\FrameworkElementAttachedProperties.cs" />
     <Compile Include="Effects\BinaryEffect.cs" />
+    <Compile Include="Effects\MedianFilter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
