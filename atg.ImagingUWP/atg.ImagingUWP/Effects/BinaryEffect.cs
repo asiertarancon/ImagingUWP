@@ -29,7 +29,7 @@ namespace atg.ImagingUWP.Effects
         {
             get
             {
-                return RenderOptions.Cpu; // This example supports only CPU based rendering.
+                return RenderOptions.Cpu;
             }
         }
 
@@ -40,7 +40,7 @@ namespace atg.ImagingUWP.Effects
                 return new BlockBasedWorker();
             }
 
-            return null; // Unsupported requests get null as the return value.
+            return null;
         }
 
         // This is the image worker implementation, which performs actual processing.
@@ -57,12 +57,6 @@ namespace atg.ImagingUWP.Effects
                 {
                     for (int i = 0; i < width; ++i)
                     {
-                                                
-                        //var c = sourcePixelRegion.ImagePixels[index + i];
-
-                        //c >>= 1;
-                        //c &= 0x7F7F7F7F;
-
                         var pixel = sourcePixelRegion.ImagePixels[index + i];
 
                         uint red = (pixel >> 16) & 0x000000FF;

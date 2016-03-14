@@ -103,26 +103,12 @@
     
     <Page.BottomAppBar>
         <CommandBar >
-            <AppBarToggleButton Label="Edit" IsChecked="{Binding IsEditing, Mode=TwoWay}" >
-                <AppBarToggleButton.Icon>
-                    <BitmapIcon UriSource="ms-appx:///Icons/appbar_edit.png"/>
-                </AppBarToggleButton.Icon>
-            </AppBarToggleButton>
+            
             <AppBarToggleButton Label="Effects" IsChecked="{Binding IsStaticEffectVisible, Mode=TwoWay}" >
                 <AppBarToggleButton.Icon>
                     <BitmapIcon UriSource="ms-appx:///Icons/appbar_effects.png"/>
                 </AppBarToggleButton.Icon>
             </AppBarToggleButton>
-            <AppBarToggleButton Label="{Binding RecordingStateText}" IsChecked="{Binding IsRecording}" Command="{Binding StartStopRecordCommand}">
-                <AppBarToggleButton.Icon>
-                    <BitmapIcon UriSource="{Binding VideoRecordingIcon}"/>
-                </AppBarToggleButton.Icon>
-            </AppBarToggleButton>
-            <AppBarButton Label="Capture"  Command="{Binding CaptureCommand}">
-                <AppBarButton.Icon>
-                    <BitmapIcon UriSource="ms-appx:///Icons/feature.camera.png"/>
-                </AppBarButton.Icon>
-            </AppBarButton>
             <AppBarButton Label="Toggle"  Command="{Binding ToggleCameraCommand}">
                 <AppBarButton.Icon>
                     <BitmapIcon UriSource="ms-appx:///Icons/feature-switch.camera.png"/>
@@ -239,7 +225,7 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <TextBlock  Text="Video Capture" FontSize="32" Margin="12,0,0,6" Grid.Column="1" VerticalAlignment="Center" FontFamily="Segoe WP"/>
+        <TextBlock  Text="Imagenes digitales (Ur)" FontSize="32" Margin="12,0,0,6" Grid.Column="1" VerticalAlignment="Center" FontFamily="Segoe WP"/>
 
         <Grid Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Center">
             <Grid.RowDefinitions>

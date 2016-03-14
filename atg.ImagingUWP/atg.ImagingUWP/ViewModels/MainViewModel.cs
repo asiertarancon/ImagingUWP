@@ -36,9 +36,7 @@ namespace atg.ImagingUWP.ViewModels
     public class MainViewModel : ViewModelBase
     {
         #region Fields
-        private string m_currentState;
-        private bool m_isRecording;
-        private bool m_isRecordingEnabled;
+        private string m_currentState;        
         private bool m_isCaptureEnabled;
         private PropertySet m_configurationPropertySet;
         public CaptureElement m_PreviewVideoElement;
@@ -100,8 +98,7 @@ namespace atg.ImagingUWP.ViewModels
             Application.Current.Suspending += OnApplicationSuspending;
             Application.Current.Resuming += OnApplicationResuming;
             SystemMediaTransportControls.GetForCurrentView().PropertyChanged += OnMediaPropertyChanged;
-
-            StartStopRecordCommand = new RelayCommand(OnStartStopRecord, OnCanExecutePlayRecord);
+            
             CaptureCommand = new RelayCommand(OnCaptureImage, CanExecuteCaptureImage);
             ToggleCameraCommand = new RelayCommand(OnToggleCamera, CanExecuteToggleCamera);
 
@@ -117,8 +114,7 @@ namespace atg.ImagingUWP.ViewModels
 
             CurrentState = "Normal";
             CurrentEditor = Effects.FirstOrDefault();
-
-            IsRecordingEnabled = true;
+            
             m_externalCamera = false;
             m_isToggelingCamera = false;
         }
@@ -139,12 +135,7 @@ namespace atg.ImagingUWP.ViewModels
         public Uri VideoRecordingIcon
         {
             get
-            {
-                if (m_isRecording)
-                {
-                    return new Uri("ms-appx:///Icons/stop.png");
-                }
-
+            {               
                 return new Uri("ms-appx:///Icons/feature.video.png");
             }
         }
@@ -221,34 +212,7 @@ namespace atg.ImagingUWP.ViewModels
                 }
             }
         }
-        public string RecordingStateText
-        {
-            get { return m_isRecording ? "Stop" : "Start"; }
-        }
-
-        public bool IsRecordingEnabled
-        {
-            get { return m_isRecordingEnabled; }
-            set
-            {
-                Set(ref m_isRecordingEnabled, value);
-                UpdateButtonState();
-            }
-        }
-        public bool IsRecording
-        {
-            get { return m_isRecording; }
-            set
-            {
-                Set(ref m_isRecording, value);
-                CurrentState = m_isRecording ? "Recording" : "RecordingStopped";
-                RaisePropertyChanged(() => RecordingStateText);
-                RaisePropertyChanged(() => VideoRecordingIcon);
-
-                UpdateButtonState();
-            }
-        }
-
+        
         private bool IsCaptureEnabled
         {
             get { return m_isCaptureEnabled; }
@@ -307,11 +271,6 @@ namespace atg.ImagingUWP.ViewModels
         private async Task StopPreviewAsync()
         {
             await CloseAsync();
-        }
-
-        public bool OnCanExecutePlayRecord()
-        {
-            return IsRecordingEnabled && !m_isToggelingCamera;
         }
 
         private ObservableCollection<VideoEffectsViewModel> CreateNonEditableEffects()
@@ -381,61 +340,7 @@ namespace atg.ImagingUWP.ViewModels
                 });
             }
         }
-
-        private async System.Threading.Tasks.Task StartRecordAsync()
-        {
-            try
-            {
-                IsRecording = true;
-                //if camera does not support lowlag record and lowlag photo at the same time enable TakePhoto button after recording
-                IsCaptureEnabled = m_mediaCapture.MediaCaptureSettings.ConcurrentRecordAndPhotoSupported;
-
-                string fileName = "LumiaImagingVideo.mp4";
-
-                var recordStorageFile = await KnownFolders.PicturesLibrary.CreateFileAsync(fileName, Windows.Storage.CreationCollisionOption.GenerateUniqueName);
-
-                MediaEncodingProfile recordProfile = MediaEncodingProfile.CreateMp4(Windows.Media.MediaProperties.VideoEncodingQuality.Auto);
-
-                // Calculate rotation angle, taking mirroring into account if necessary
-                var rotationAngle = 360 - ConvertDeviceOrientationToDegrees(GetCameraOrientation());
-                recordProfile.Video.Properties.Add(RotationKey, PropertyValue.CreateInt32(rotationAngle));
-
-                Debug.WriteLine("Starting recording...");
-
-                await m_mediaCapture.StartRecordToStorageFileAsync(recordProfile, recordStorageFile);
-            }
-            catch (Exception exception)
-            {
-                Debug.Assert(true, string.Format("Failed to start record video. {0}", exception.Message));
-                IsRecording = false;
-            }
-        }
-
-        private async void OnStartStopRecord()
-        {
-            if (!IsRecording)
-            {
-                await StartRecordAsync();
-            }
-            else
-            {
-                await StopRecordAsync();
-            }
-        }
-
-        private async System.Threading.Tasks.Task StopRecordAsync()
-        {
-            try
-            {
-                await m_mediaCapture.StopRecordAsync();
-            }
-            catch (Exception)
-            { }
-
-            IsRecording = false;
-            IsCaptureEnabled = true;
-        }
-
+       
         protected virtual async Task CloseAsync()
         {
             _displayRequest.RequestRelease();
@@ -444,7 +349,6 @@ namespace atg.ImagingUWP.ViewModels
                 return;
 
             UnregisterEventHandlers();
-            m_mediaCapture.RecordLimitationExceeded -= OnMediaCaptureRecordLimitationExceeded;
             m_mediaCapture.Failed -= OnMediaCaptureFailed;
 
             try
@@ -454,11 +358,6 @@ namespace atg.ImagingUWP.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-            }
-
-            if (m_isRecording)
-            {
-                await m_mediaCapture.StopRecordAsync();
             }
 
             m_mediaCapture.Dispose();
@@ -494,9 +393,7 @@ namespace atg.ImagingUWP.ViewModels
                 m_displayOrientation = m_displayInformation.CurrentOrientation;
 
                 RegisterEventHandlers();
-
-                m_mediaCapture.RecordLimitationExceeded += OnMediaCaptureRecordLimitationExceeded;
-
+                
                 var devInfo = await FindCameraDeviceByPanelAsync(m_desiredCameraPanel);
                 var id = devInfo != null ? devInfo.Id : string.Empty;
 
@@ -604,10 +501,7 @@ namespace atg.ImagingUWP.ViewModels
             IsCaptureEnabled = false;
 
             try
-            {
-                //if camera does not support record and Takephoto at the same time disable Record button when taking photo
-                IsRecordingEnabled = m_mediaCapture.MediaCaptureSettings.ConcurrentRecordAndPhotoSupported;
-
+            {                
                 ImageEncodingProperties imageProperties = ImageEncodingProperties.CreateJpeg();
 
                 var stream = new InMemoryRandomAccessStream();
@@ -616,8 +510,6 @@ namespace atg.ImagingUWP.ViewModels
 
 
                 await SaveToPicturesLibraryAsync(stream);
-
-                IsRecordingEnabled = true;
 
             }
             catch (Exception ex)
@@ -872,28 +764,6 @@ namespace atg.ImagingUWP.ViewModels
 
             return resolutionMax;
         }
-
-
-        async void OnMediaCaptureRecordLimitationExceeded(MediaCapture sender)
-        {
-            await TaskUtilities.RunOnDispatcherThreadAsync(async () =>
-            {
-                await StopRecordAsync();
-                IsRecording = false;
-            });
-        }
-
-        /*    protected async override void OnNavigatingTo()
-            {          
-             SystemMediaTransportControls.GetForCurrentView().PropertyChanged += OnMediaPropertyChanged;     
-                await StartPreviewAsync();
-            }
-            protected async override void OnNavigatingFrom()
-            {           
-             SystemMediaTransportControls.GetForCurrentView().PropertyChanged -= OnMediaPropertyChanged;    
-                await StopPreviewAsync();
-            }
-            */
 
     }
 }
