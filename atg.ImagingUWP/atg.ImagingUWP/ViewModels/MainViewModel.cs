@@ -403,14 +403,16 @@ namespace atg.ImagingUWP.ViewModels
 
                 await m_mediaCapture.InitializeAsync(settings);
 
-                m_mediaCapture.SetEncoderProperty(MediaStreamType.VideoPreview, new Guid("9C27891A-ED7A-40e1-88E8-B22727A024EE"), PropertyValue.CreateUInt32(1));
+                m_mediaCapture.SetEncoderProperty(MediaStreamType.VideoPreview, 
+                    new Guid("9C27891A-ED7A-40e1-88E8-B22727A024EE"), PropertyValue.CreateUInt32(1));
 
                 var resolutionMax = GetHighestResolution();
 
                 ImageWidth = resolutionMax.Width;
                 ImageHeight = resolutionMax.Height;
 
-                await m_mediaCapture.VideoDeviceController.SetMediaStreamPropertiesAsync(MediaStreamType.VideoPreview, resolutionMax);
+                await m_mediaCapture.VideoDeviceController.SetMediaStreamPropertiesAsync
+                    (MediaStreamType.VideoPreview, resolutionMax);
 
                 m_PreviewVideoElement.Source = m_mediaCapture;
                 await AddEffectsAsync();

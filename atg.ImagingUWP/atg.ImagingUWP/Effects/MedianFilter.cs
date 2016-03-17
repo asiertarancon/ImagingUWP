@@ -52,36 +52,36 @@ namespace atg.ImagingUWP.Effects
                 
             }
 
-            protected override void OnProcess(PixelRegion sourcePixelRegion, PixelRegion targetPixelRegion)
-            {
-                SortedSet<uint> array = new SortedSet<uint>();
+protected override void OnProcess(PixelRegion sourcePixelRegion, PixelRegion targetPixelRegion)
+{
+    SortedSet<uint> array = new SortedSet<uint>();
 
-                //int width = Convert.ToInt32(sourcePixelRegion.ImageSize.Width);                
+    //int width = Convert.ToInt32(sourcePixelRegion.ImageSize.Width);                
                 
-                targetPixelRegion.ForEachRow((index, width, position) =>
-                {
-                    for (int i = 0; i < width; i++)
-                    {
-                        var pixel = index + i;
-                        array.Clear();
-                        //var pixel = Convert.ToInt32(index + position.X + i);
+    targetPixelRegion.ForEachRow((index, width, position) =>
+    {
+        for (int i = 0; i < width; i++)
+        {
+            var pixel = index + i;
+            array.Clear();
+            //var pixel = Convert.ToInt32(index + position.X + i);
 
-                        var pixelCentral = GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel, 0);
-                        array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel - width - 1, pixelCentral));
-                        array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel - width, pixelCentral));
-                        array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel - width + 1, pixelCentral));
+            var pixelCentral = GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel, 0);
+            array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel - width - 1, pixelCentral));
+            array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel - width, pixelCentral));
+            array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel - width + 1, pixelCentral));
 
-                        array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel - 1, pixelCentral));
-                        array.Add(pixelCentral);
-                        array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel + 1, pixelCentral));
+            array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel - 1, pixelCentral));
+            array.Add(pixelCentral);
+            array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel + 1, pixelCentral));
 
-                        array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel + width - 1, pixelCentral));
-                        array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel + width, pixelCentral));
-                        array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel + width + 1, pixelCentral));
+            array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel + width - 1, pixelCentral));
+            array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel + width, pixelCentral));
+            array.Add(GetPixelOrDefault(sourcePixelRegion.ImagePixels, pixel + width + 1, pixelCentral));
 
-                        targetPixelRegion.ImagePixels[pixel] = sourcePixelRegion.ImagePixels[pixel];// array.ElementAt((array.Count- 1) /2);//.OrderBy(it => it).ToList()[4];
-                    }
-                });
+            targetPixelRegion.ImagePixels[pixel] = array.ElementAt((array.Count- 1) /2);//.OrderBy(it => it).ToList()[4];
+        }
+    });
                 //for (; pixel<sourcePixelRegion.ImagePixels.Length-width-2; pixel++)
                 //{
 

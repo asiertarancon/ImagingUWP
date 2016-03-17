@@ -231,7 +231,10 @@
             <Grid.RowDefinitions>
             </Grid.RowDefinitions>
 
-            <CaptureElement  x:Name="m_previewVideoElement"  properties:FrameworkElementAttachedProperties.LoadedCommand="{Binding PreviewVideoElementLoadedCommand}" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Uniform" Height="{Binding ImageHeight}" Width="{Binding ImageWidth}"  />
+            <CaptureElement  properties:FrameworkElementAttachedProperties.LoadedCommand="{Binding PreviewVideoElementLoadedCommand}" 
+                             x:Name="m_previewVideoElement" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                             Stretch="Uniform" Height="{Binding ImageHeight}" Width="{Binding ImageWidth}"  />
+            
             <StackPanel x:Name="recordingStack"  Margin="0,20,0,0" Orientation="Horizontal" Opacity="0"  HorizontalAlignment="Center" VerticalAlignment="Top">
                 <Ellipse HorizontalAlignment="Left" Height="32" Margin="0" StrokeEndLineCap="Square" Stroke="Black" VerticalAlignment="Center" Width="32" Fill="Red"/>
                 <TextBlock HorizontalAlignment="Left" Margin="8,0,0,0" TextWrapping="Wrap" Text="Recording" VerticalAlignment="Center" Foreground="#FFF30B0B" FontSize="26.667"  FontWeight="Bold"/>
